@@ -14,7 +14,6 @@ public class EnterpRyze {
     {
         String token = getTokenFromFile("E:/Projects/EnterpRyzeToken.txt");
 
-        // Note: It is important to register your ReadyListener before building
         JDA jda = new JDABuilder(token).build();
         jda.addEventListener(new MessageListener());
     }

@@ -31,24 +31,29 @@ public class MessageListener extends ListenerAdapter {
             if(!event.getAuthor().isBot()) { // Prevent bot from talking to other bots and self
                 MessageChannel channel = event.getChannel();
 
-                if(isCommand(event, "hello")) {                             // HELLO
+                if(isCommand(event, "hello")) {                                                                 // HELLO
                     // Hello message
                     channel.sendMessage("Hello, " + event.getMember().getAsMention() + ".").queue();
-                } else if(isCommand(event, "roll")) {                       // ROLL
+                } else if(isCommand(event, "roll")) {                                                           // ROLL
                     String[] args = getCommandArgs(event); // Get args
                     int bounds = EnterpRyze.ROLL_DEFAULT; // Default bounds
                     // If user entered a max arg, then set bounds to that
                     if(args != null && args.length >= 1) {
                         try {
                             bounds = Integer.parseInt(args[0]);
-                        } catch(NumberFormatException e) {}
+                            if(bounds <= 0) {
+                                return;
+                            }
+                        } catch(NumberFormatException e) {
+                            return;
+                        }
                     }
                     // Generate random number
                     Random rand = new Random();
                     int n = rand.nextInt(bounds) + 1;
                     // Roll message
                     channel.sendMessage(event.getMember().getAsMention() + " rolled a " + n + ".").queue();
-                } else {                                                            // INVALID COMMAND
+                } else {                                                                                                 // INVALID COMMAND
                     // Invalid command message
                     channel.sendMessage(event.getMember().getAsMention() + ": Invalid command. " + EnterpRyze.PREFIX + "help for a list of valid commands.").queue();
                 }
